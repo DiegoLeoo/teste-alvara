@@ -238,7 +238,7 @@
         ];
 
         // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de licença
-        const imageUrl = "https://i.imgur.com/iEBfula.png";
+        const imageUrl = "https://placehold.co/1200x2000/D0F0C0/333333?text=Sua+Imagem+de+Licenca";
 
         // Elementos do DOM
         const formContainer = document.getElementById('form-container');
@@ -329,9 +329,10 @@
                 // Desenha a imagem de fundo
                 contexto.drawImage(imagem, 0, 0);
 
-                // Configurações de estilo para o texto. Ajuste a fonte e o tamanho conforme necessário.
+                // Configurações de estilo para o texto
+                // Aumentei o tamanho da fonte para 24px com base na sua observação sobre a altura da fonte.
                 contexto.fillStyle = '#000000'; // Cor preta
-                contexto.font = '20px Arial'; // Aumentei a fonte para melhor legibilidade
+                contexto.font = '24px Arial'; 
 
                 // Posições para os textos baseadas nas coordenadas que você forneceu
                 const textPositions = {
@@ -358,24 +359,24 @@
                 const formattedEmissao = `${emissaoDate.getDate().toString().padStart(2, '0')}/${(emissaoDate.getMonth() + 1).toString().padStart(2, '0')}/${emissaoDate.getFullYear()}`;
                 const formattedValidade = `${validadeDate.getDate().toString().padStart(2, '0')}/${(validadeDate.getMonth() + 1).toString().padStart(2, '0')}/${validadeDate.getFullYear()}`;
 
-                // Desenha os textos no canvas
-                contexto.fillText(`Número da Licença: ${data.licenca}`, textPositions.licenca.x, textPositions.licenca.y);
-                contexto.fillText(`Data da Emissão: ${formattedEmissao}`, textPositions.dataEmissao.x, textPositions.dataEmissao.y);
-                contexto.fillText(`Data de Validade: ${formattedValidade}`, textPositions.dataValidade.x, textPositions.dataValidade.y);
-                contexto.fillText(`Razão Social: ${data.razaoSocial}`, textPositions.razaoSocial.x, textPositions.razaoSocial.y);
-                contexto.fillText(`Atividade: ${data.atividade}`, textPositions.atividade.x, textPositions.atividade.y);
-                contexto.fillText(`Endereço: ${data.endereco}`, textPositions.endereco.x, textPositions.endereco.y);
-                contexto.fillText(`Bairro: ${data.bairro}`, textPositions.bairro.x, textPositions.bairro.y);
-                contexto.fillText(`Cidade-UF: ${data.cidadeUf}`, textPositions.cidadeUf.x, textPositions.cidadeUf.y);
-                contexto.fillText(`Responsável: ${data.nomeResponsavel}`, textPositions.nomeResponsavel.x, textPositions.nomeResponsavel.y);
-                contexto.fillText(`RG: ${data.rg}`, textPositions.rg.x, textPositions.rg.y);
-                contexto.fillText(`Advogado: ${data.nomeAdvogado}`, textPositions.nomeAdvogado.x, textPositions.nomeAdvogado.y);
-                contexto.fillText(`OAB: ${data.oab}`, textPositions.oab.x, textPositions.oab.y);
+                // Desenha os textos no canvas sem os títulos
+                contexto.fillText(data.licenca, textPositions.licenca.x, textPositions.licenca.y);
+                contexto.fillText(formattedEmissao, textPositions.dataEmissao.x, textPositions.dataEmissao.y);
+                contexto.fillText(formattedValidade, textPositions.dataValidade.x, textPositions.dataValidade.y);
+                contexto.fillText(data.razaoSocial, textPositions.razaoSocial.x, textPositions.razaoSocial.y);
+                contexto.fillText(data.atividade, textPositions.atividade.x, textPositions.atividade.y);
+                contexto.fillText(data.endereco, textPositions.endereco.x, textPositions.endereco.y);
+                contexto.fillText(data.bairro, textPositions.bairro.x, textPositions.bairro.y);
+                contexto.fillText(data.cidadeUf, textPositions.cidadeUf.x, textPositions.cidadeUf.y);
+                contexto.fillText(data.nomeResponsavel, textPositions.nomeResponsavel.x, textPositions.nomeResponsavel.y);
+                contexto.fillText(data.rg, textPositions.rg.x, textPositions.rg.y);
+                contexto.fillText(data.nomeAdvogado, textPositions.nomeAdvogado.x, textPositions.nomeAdvogado.y);
+                contexto.fillText(data.oab, textPositions.oab.x, textPositions.oab.y);
                 
                 // Desenha a assinatura digital
-                contexto.fillText(`Assinatura: ${data.assinaturaNome}`, textPositions.assinaturaNome.x, textPositions.assinaturaNome.y);
-                contexto.fillText(`Função: ${data.assinaturaFuncao}`, textPositions.assinaturaFuncao.x, textPositions.assinaturaFuncao.y);
-                contexto.fillText(`Data: ${data.assinaturaData}`, textPositions.assinaturaData.x, textPositions.assinaturaData.y);
+                contexto.fillText(data.assinaturaNome, textPositions.assinaturaNome.x, textPositions.assinaturaNome.y);
+                contexto.fillText(data.assinaturaFuncao, textPositions.assinaturaFuncao.x, textPositions.assinaturaFuncao.y);
+                contexto.fillText(data.assinaturaData, textPositions.assinaturaData.x, textPositions.assinaturaData.y);
 
                 // Mostra o canvas e esconde o formulário
                 formContainer.style.display = 'none';
@@ -402,4 +403,3 @@
     </script>
 </body>
 </html>
-
