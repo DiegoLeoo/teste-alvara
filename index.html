@@ -237,9 +237,8 @@
             },
         ];
 
-        // URLs da sua imagem. Substitua a URL abaixo com a sua imagem de licença
-        // A imagem está no mesmo diretório do arquivo HTML.
-        const imageUrl = "./modelo_alvara.png";
+        // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de licença
+        const imageUrl = "https://imgur.com/a/hTanqkU";
 
         // Elementos do DOM
         const formContainer = document.getElementById('form-container');
@@ -330,27 +329,27 @@
                 // Desenha a imagem de fundo
                 contexto.drawImage(imagem, 0, 0);
 
-                // Configurações de estilo para o texto
+                // Configurações de estilo para o texto. Ajuste a fonte e o tamanho conforme necessário.
                 contexto.fillStyle = '#000000'; // Cor preta
-                contexto.font = '12px Arial'; // Fonte Arial 12px
+                contexto.font = '20px Arial'; // Aumentei a fonte para melhor legibilidade
 
-                // Posições para os textos. Ajuste os valores (X, Y) para o seu layout
+                // Posições para os textos baseadas nas coordenadas que você forneceu
                 const textPositions = {
-                    licenca: { x: 300, y: 150 },
-                    dataEmissao: { x: 300, y: 170 },
-                    dataValidade: { x: 300, y: 190 },
-                    razaoSocial: { x: 300, y: 210 },
-                    atividade: { x: 300, y: 230 },
-                    endereco: { x: 300, y: 250 },
-                    bairro: { x: 300, y: 270 },
-                    cidadeUf: { x: 300, y: 290 },
-                    nomeResponsavel: { x: 300, y: 310 },
-                    rg: { x: 300, y: 330 },
-                    nomeAdvogado: { x: 300, y: 350 },
-                    oab: { x: 300, y: 370 },
-                    assinaturaNome: { x: 300, y: 400 },
-                    assinaturaFuncao: { x: 300, y: 415 },
-                    assinaturaData: { x: 300, y: 430 },
+                    licenca: { x: 205, y: 434 },
+                    dataEmissao: { x: 338, y: 494 },
+                    dataValidade: { x: 981, y: 494 },
+                    endereco: { x: 239, y: 645 },
+                    bairro: { x: 187, y: 715 },
+                    cidadeUf: { x: 1131, y: 715 },
+                    razaoSocial: { x: 286, y: 972 },
+                    atividade: { x: 415, y: 1021 },
+                    nomeResponsavel: { x: 167, y: 1185 },
+                    rg: { x: 520, y: 1185 },
+                    nomeAdvogado: { x: 168, y: 1365 },
+                    oab: { x: 529, y: 1365 },
+                    assinaturaNome: { x: 579, y: 1759 },
+                    assinaturaFuncao: { x: 612, y: 1792 },
+                    assinaturaData: { x: 560, y: 1833 },
                 };
 
                 // Formata a data de emissão para exibição
@@ -384,7 +383,9 @@
             };
 
             imagem.onerror = () => {
-                alert('Erro ao carregar a imagem. Verifique se a URL está correta.');
+                console.error('Erro ao carregar a imagem. Verifique se a URL está correta ou se o servidor está ativo.');
+                // Exibe uma mensagem de erro mais clara para o usuário
+                alert('Erro ao carregar a imagem. Por favor, verifique se a URL da imagem está correta e tente novamente.');
             };
 
             // Carrega a imagem
@@ -401,4 +402,3 @@
     </script>
 </body>
 </html>
-
