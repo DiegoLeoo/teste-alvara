@@ -144,7 +144,6 @@
                     <label for="data-validade">Data de Validade</label>
                     <input type="date" id="data-validade" name="data-validade" readonly>
                 </div>
-
                 <h2>Informações da Empresa</h2>
                 <div class="input-group">
                     <label for="razao-social">Razão Social</label>
@@ -166,16 +165,6 @@
                     <label for="cidade-uf">Cidade-UF</label>
                     <input type="text" id="cidade-uf" name="cidade-uf">
                 </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Assinatura Digital</h2>
-                <div class="input-group">
-                    <label for="select-assinatura">Escolher Assinatura</label>
-                    <select id="select-assinatura" name="select-assinatura">
-                        <!-- O Javascript preencherá esta lista -->
-                    </select>
-                </div>
                 <div class="input-group">
                     <label for="nome-responsavel">Nome (Responsável da Empresa)</label>
                     <input type="text" id="nome-responsavel" name="nome-responsavel">
@@ -191,6 +180,28 @@
                 <div class="input-group">
                     <label for="oab">OAB</label>
                     <input type="text" id="oab" name="oab">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Assinatura Digital</h2>
+                <div class="input-group">
+                    <label for="select-assinatura">Escolher Assinatura</label>
+                    <select id="select-assinatura" name="select-assinatura">
+                        <!-- O Javascript preencherá esta lista -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="assinatura-nome">Nome</label>
+                    <input type="text" id="assinatura-nome" name="assinatura-nome" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="assinatura-funcao">Função</label>
+                    <input type="text" id="assinatura-funcao" name="assinatura-funcao" readonly>
+                </div>
+                <div class="input-group">
+                    <label for="assinatura-data">Data</label>
+                    <input type="text" id="assinatura-data" name="assinatura-data" readonly>
                 </div>
 
                 <div class="input-group" style="margin-top: 20px;">
@@ -210,25 +221,19 @@
         // Dados para a lista de assinaturas. Você pode editar esta lista
         const signatures = [
             {
-                nomeResponsavel: 'Nome do Responsável',
-                rg: '00.000.000-0',
-                nomeAdvogado: 'Nome do Advogado',
-                oab: '00000',
-                nomeCompleto: 'Selecione uma Assinatura',
+                nome: 'Selecione uma Assinatura',
+                funcao: '',
+                data: '',
             },
             {
-                nomeResponsavel: 'Carlos Alberto da Silva',
-                rg: '12.345.678-9',
-                nomeAdvogado: 'Ana Paula Costa',
-                oab: '12345',
-                nomeCompleto: 'Carlos Alberto da Silva',
+                nome: 'Carlos Alberto da Silva',
+                funcao: 'Diretor Executivo',
+                data: new Date().toLocaleDateString('pt-BR'),
             },
             {
-                nomeResponsavel: 'Maria Joana Oliveira',
-                rg: '98.765.432-1',
-                nomeAdvogado: 'João Pedro Santos',
-                oab: '54321',
-                nomeCompleto: 'Maria Joana Oliveira',
+                nome: 'Maria Joana Oliveira',
+                funcao: 'Gerente Financeiro',
+                data: new Date().toLocaleDateString('pt-BR'),
             },
         ];
 
@@ -245,26 +250,30 @@
         const dataValidadeInput = document.getElementById('data-validade');
         const selectAssinatura = document.getElementById('select-assinatura');
 
+        // Novos campos da assinatura digital
+        const assinaturaNomeInput = document.getElementById('assinatura-nome');
+        const assinaturaFuncaoInput = document.getElementById('assinatura-funcao');
+        const assinaturaDataInput = document.getElementById('assinatura-data');
+
         // Preenche o campo de seleção de assinatura
         function populateSignatureSelect() {
             signatures.forEach(sig => {
                 const option = document.createElement('option');
-                option.value = sig.nomeCompleto;
-                option.textContent = sig.nomeCompleto;
+                option.value = sig.nome;
+                option.textContent = sig.nome;
                 selectAssinatura.appendChild(option);
             });
         }
         populateSignatureSelect();
 
-        // Preenche os campos do formulário com base na seleção
+        // Preenche os campos da assinatura com base na seleção
         selectAssinatura.addEventListener('change', (e) => {
             const selectedName = e.target.value;
-            const selectedSignature = signatures.find(sig => sig.nomeCompleto === selectedName);
+            const selectedSignature = signatures.find(sig => sig.nome === selectedName);
             if (selectedSignature) {
-                document.getElementById('nome-responsavel').value = selectedSignature.nomeResponsavel;
-                document.getElementById('rg').value = selectedSignature.rg;
-                document.getElementById('nome-advogado').value = selectedSignature.nomeAdvogado;
-                document.getElementById('oab').value = selectedSignature.oab;
+                assinaturaNomeInput.value = selectedSignature.nome;
+                assinaturaFuncaoInput.value = selectedSignature.funcao;
+                assinaturaDataInput.value = selectedSignature.data;
             }
         });
 
@@ -295,6 +304,9 @@
                 rg: document.getElementById('rg').value,
                 nomeAdvogado: document.getElementById('nome-advogado').value,
                 oab: document.getElementById('oab').value,
+                assinaturaNome: assinaturaNomeInput.value,
+                assinaturaFuncao: assinaturaFuncaoInput.value,
+                assinaturaData: assinaturaDataInput.value,
             };
 
             generateImage(formData);
@@ -335,6 +347,9 @@
                     rg: { x: 300, y: 330 },
                     nomeAdvogado: { x: 300, y: 350 },
                     oab: { x: 300, y: 370 },
+                    assinaturaNome: { x: 300, y: 400 },
+                    assinaturaFuncao: { x: 300, y: 415 },
+                    assinaturaData: { x: 300, y: 430 },
                 };
 
                 // Formata a data de emissão para exibição
@@ -356,6 +371,11 @@
                 contexto.fillText(`RG: ${data.rg}`, textPositions.rg.x, textPositions.rg.y);
                 contexto.fillText(`Advogado: ${data.nomeAdvogado}`, textPositions.nomeAdvogado.x, textPositions.nomeAdvogado.y);
                 contexto.fillText(`OAB: ${data.oab}`, textPositions.oab.x, textPositions.oab.y);
+                
+                // Desenha a assinatura digital
+                contexto.fillText(`Assinatura: ${data.assinaturaNome}`, textPositions.assinaturaNome.x, textPositions.assinaturaNome.y);
+                contexto.fillText(`Função: ${data.assinaturaFuncao}`, textPositions.assinaturaFuncao.x, textPositions.assinaturaFuncao.y);
+                contexto.fillText(`Data: ${data.assinaturaData}`, textPositions.assinaturaData.x, textPositions.assinaturaData.y);
 
                 // Mostra o canvas e esconde o formulário
                 formContainer.style.display = 'none';
