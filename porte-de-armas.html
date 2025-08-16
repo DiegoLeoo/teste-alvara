@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Porte de Armas</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos do formulário */
+        #form-container {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            #form-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-section h2 {
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button, .home-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        button:hover, .home-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos do Canvas */
+        #view-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        #porte-armas-canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #voltar-btn {
+            margin-top: 20px;
+            background-color: #6c757d;
+        }
+
+        #voltar-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .home-btn {
+            background-color: #34495e;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gerador de Porte de Armas</h1>
+
+        <div id="form-container">
+            <div class="form-section">
+                <h2>Informações do Porte de Armas</h2>
+                <div class="input-group">
+                    <label for="certificado">Certificado Nº</label>
+                    <input type="text" id="certificado" name="certificado">
+                </div>
+                <div class="input-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                <div class="input-group">
+                    <label for="profissao">Profissão</label>
+                    <input type="text" id="profissao" name="profissao">
+                </div>
+                <div class="input-group">
+                    <label for="aptidao-psicologica">Aptidão Psicológica</label>
+                    <input type="text" id="aptidao-psicologica" name="aptidao-psicologica">
+                </div>
+                <div class="input-group">
+                    <label for="aptidao-tecnica">Aptidão Técnica</label>
+                    <input type="text" id="aptidao-tecnica" name="aptidao-tecnica">
+                </div>
+                <div class="input-group">
+                    <label for="data-expedicao">Data de Expedição</label>
+                    <input type="date" id="data-expedicao" name="data-expedicao">
+                </div>
+                <div class="input-group">
+                    <label for="rg">RG</label>
+                    <input type="text" id="rg" name="rg">
+                </div>
+                
+                <div class="input-group" style="margin-top: 20px;">
+                    <button id="gerar-btn">Gerar Porte de Armas</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-container">
+            <h1>Seu Porte de Armas Gerado</h1>
+            <canvas id="porte-armas-canvas"></canvas>
+            <button id="voltar-btn">Voltar para o Formulário</button>
+            <a href="index.html" class="home-btn" style="margin-top: 10px;">Voltar para o Início</a>
+        </div>
+    </div>
+
+    <script>
+        // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de fundo
+        const imageUrl = "https://i.imgur.com/6vGSJjJ.png";
+
+        // Elementos do DOM
+        const formContainer = document.getElementById('form-container');
+        const viewContainer = document.getElementById('view-container');
+        const canvas = document.getElementById('porte-armas-canvas');
+        const gerarBtn = document.getElementById('gerar-btn');
+        const voltarBtn = document.getElementById('voltar-btn');
+
+        gerarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                certificado: document.getElementById('certificado').value,
+                nome: document.getElementById('nome').value,
+                profissao: document.getElementById('profissao').value,
+                aptidaoPsicologica: document.getElementById('aptidao-psicologica').value,
+                aptidaoTecnica: document.getElementById('aptidao-tecnica').value,
+                dataExpedicao: document.getElementById('data-expedicao').value,
+                rg: document.getElementById('rg').value,
+            };
+
+            generateImage(formData);
+        });
+
+        voltarBtn.addEventListener('click', () => {
+            viewContainer.style.display = 'none';
+            formContainer.style.display = 'grid';
+        });
+
+        function generateImage(data) {
+            const contexto = canvas.getContext('2d');
+            const imagem = new Image();
+
+            imagem.onload = () => {
+                canvas.width = imagem.width;
+                canvas.height = imagem.height;
+
+                contexto.drawImage(imagem, 0, 0);
+
+                // Configurações de estilo para o texto
+                contexto.fillStyle = '#000000'; 
+                contexto.font = 'bold 28px Arial'; 
+                contexto.textAlign = 'left';
+
+                // Posições para os textos baseadas nas coordenadas que você forneceu
+                const textPositions = {
+                    certificado: { x: 194, y: 261 },
+                    expedicao: { x: 508, y: 261 },
+                    categoria: { x: 815, y: 261 },
+                    via: { x: 1032, y: 261 },
+                    nome: { x: 564, y: 347 },
+                    profissao: { x: 564, y: 434 },
+                    aptidaoPsicologica: { x: 311, y: 529 },
+                    aptidaoTecnica: { x: 839, y: 529 },
+                    dataExpedicao: { x: 225, y: 613 },
+                    dataValidade: { x: 574, y: 613 },
+                    rg: { x: 911, y: 613 },
+                };
+
+                // Formata a data de expedição para exibição
+                const expedicaoDate = new Date(data.dataExpedicao);
+                const formattedExpedicao = `${expedicaoDate.getDate().toString().padStart(2, '0')}/${(expedicaoDate.getMonth() + 1).toString().padStart(2, '0')}/${expedicaoDate.getFullYear()}`;
+
+                // Desenha os textos no canvas
+                contexto.fillText(data.certificado, textPositions.certificado.x, textPositions.certificado.y);
+                contexto.fillText("SR/PF/SP", textPositions.expedicao.x, textPositions.expedicao.y);
+                contexto.fillText("Defesa Pessoal", textPositions.categoria.x, textPositions.categoria.y);
+                contexto.fillText("1ª", textPositions.via.x, textPositions.via.y);
+                contexto.fillText(data.nome, textPositions.nome.x, textPositions.nome.y);
+                contexto.fillText(data.profissao, textPositions.profissao.x, textPositions.profissao.y);
+                contexto.fillText(data.aptidaoPsicologica, textPositions.aptidaoPsicologica.x, textPositions.aptidaoPsicologica.y);
+                contexto.fillText(data.aptidaoTecnica, textPositions.aptidaoTecnica.x, textPositions.aptidaoTecnica.y);
+                contexto.fillText(formattedExpedicao, textPositions.dataExpedicao.x, textPositions.dataExpedicao.y);
+                contexto.fillText("Indeterminado", textPositions.dataValidade.x, textPositions.dataValidade.y);
+                contexto.fillText(data.rg, textPositions.rg.x, textPositions.rg.y);
+
+                formContainer.style.display = 'none';
+                viewContainer.style.display = 'flex';
+            };
+
+            imagem.onerror = () => {
+                console.error('Erro ao carregar a imagem. Verifique se a URL está correta ou se o servidor está ativo.');
+                alert('Erro ao carregar a imagem. Por favor, verifique se a URL da imagem está correta e tente novamente.');
+            };
+
+            imagem.src = imageUrl;
+        }
+
+        // Define a data de expedição como a data atual ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('data-expedicao').value = today;
+        });
+
+    </script>
+</body>
+</html>
