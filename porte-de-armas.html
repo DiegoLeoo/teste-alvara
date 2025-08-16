@@ -184,7 +184,7 @@
 
     <script>
         // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de fundo
-        const imageUrl = "https://i.imgur.com/6vGSJjJ.png";
+        const imageUrl = "https://placehold.co/1200x2000/F0C0D0/333333?text=Sua+Imagem+de+Porte+de+Armas";
 
         // Elementos do DOM
         const formContainer = document.getElementById('form-container');
@@ -227,11 +227,10 @@
                 // Configurações de estilo para o texto
                 contexto.fillStyle = '#000000'; 
                 contexto.font = 'bold 28px Arial'; 
-                // Alinha o texto ao centro para a centralização horizontal
+                // Alinha o texto ao centro para que as coordenadas X e Y sejam o ponto central
                 contexto.textAlign = 'center'; 
 
                 // Posições para os textos baseadas nas coordenadas que você forneceu.
-                // O alinhamento de texto 'center' garante que o texto fique centralizado horizontalmente nestes pontos.
                 const textPositions = {
                     certificado: { x: 194, y: 261 },
                     expedicao: { x: 508, y: 261 },
