@@ -47,6 +47,15 @@
         .document-list a:hover {
             background-color: #0056b3;
         }
+        /* Estilo para links desabilitados */
+        .document-list .disabled-btn {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            pointer-events: none; /* Desabilita o clique */
+        }
+        .document-list .disabled-btn:hover {
+            background-color: #6c757d; /* Mantém a cor no hover */
+        }
     </style>
 </head>
 <body>
@@ -54,9 +63,9 @@
         <h1>Selecione o Documento para Gerar</h1>
         <div class="document-list">
             <a href="licenca.html">Gerar Licença</a>
-            <a href="porte-de-armas.html">Gerar Porte de Armas</a>
-            <a href="certidao-casamento.html">Gerar Certidão de Casamento</a>
-            <a href="certidao-limpeza.html">Gerar Certidão de Limpeza de Ficha</a>
+            <a class="disabled-btn">Gerar Porte de Armas (Em Breve)</a>
+            <a class="disabled-btn">Gerar Certidão de Casamento (Em Breve)</a>
+            <a class="disabled-btn">Gerar Certidão de Limpeza de Ficha (Em Breve)</a>
         </div>
     </div>
 </body>
