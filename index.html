@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Licença</title>
+    <title>Gerador de Documentos</title>
     <style>
-        /* Estilos gerais */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f2f5;
@@ -16,394 +15,49 @@
             margin: 0;
             padding: 20px;
         }
-
         .container {
             background-color: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 900px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 600px;
+            text-align: center;
         }
-
         h1 {
             color: #333;
-            text-align: center;
             margin-bottom: 20px;
         }
-
-        /* Estilos do formulário */
-        #form-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-            #form-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .form-section {
+        .document-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-
-        .form-section h2 {
-            color: #555;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-group label {
-            font-weight: bold;
-            color: #444;
-            margin-bottom: 5px;
-        }
-
-        .input-group input, .input-group select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
+        .document-list a {
             background-color: #007bff;
             color: white;
             border: none;
             padding: 15px 25px;
             border-radius: 5px;
             font-size: 18px;
+            text-decoration: none;
             cursor: pointer;
             transition: background-color 0.3s;
-            width: 100%;
-            box-sizing: border-box;
         }
-
-        button:hover {
+        .document-list a:hover {
             background-color: #0056b3;
-        }
-
-        /* Estilos do Canvas */
-        #view-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        #licenca-canvas {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #voltar-btn {
-            margin-top: 20px;
-            background-color: #6c757d;
-        }
-
-        #voltar-btn:hover {
-            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Gerador de Licença</h1>
-
-        <div id="form-container">
-            <div class="form-section">
-                <h2>Informações da Licença</h2>
-                <div class="input-group">
-                    <label for="licenca">Número da Licença</label>
-                    <input type="text" id="licenca" name="licenca">
-                </div>
-                <div class="input-group">
-                    <label for="data-emissao">Data da Emissão</label>
-                    <input type="date" id="data-emissao" name="data-emissao">
-                </div>
-                <div class="input-group">
-                    <label for="data-validade">Data de Validade</label>
-                    <input type="date" id="data-validade" name="data-validade" readonly>
-                </div>
-                <h2>Informações da Empresa</h2>
-                <div class="input-group">
-                    <label for="razao-social">Razão Social</label>
-                    <input type="text" id="razao-social" name="razao-social">
-                </div>
-                <div class="input-group">
-                    <label for="atividade">Atividade da Empresa</label>
-                    <input type="text" id="atividade" name="atividade">
-                </div>
-                <div class="input-group">
-                    <label for="endereco">Endereço</label>
-                    <input type="text" id="endereco" name="endereco">
-                </div>
-                <div class="input-group">
-                    <label for="bairro">Bairro</label>
-                    <input type="text" id="bairro" name="bairro">
-                </div>
-                <div class="input-group">
-                    <label for="cidade-uf">Cidade-UF</label>
-                    <input type="text" id="cidade-uf" name="cidade-uf">
-                </div>
-                <div class="input-group">
-                    <label for="nome-responsavel">Nome (Responsável da Empresa)</label>
-                    <input type="text" id="nome-responsavel" name="nome-responsavel">
-                </div>
-                <div class="input-group">
-                    <label for="rg">RG</label>
-                    <input type="text" id="rg" name="rg">
-                </div>
-                <div class="input-group">
-                    <label for="nome-advogado">Nome (Advogado Solicitante)</label>
-                    <input type="text" id="nome-advogado" name="nome-advogado">
-                </div>
-                <div class="input-group">
-                    <label for="oab">OAB</label>
-                    <input type="text" id="oab" name="oab">
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h2>Assinatura Digital</h2>
-                <div class="input-group">
-                    <label for="select-assinatura">Escolher Assinatura</label>
-                    <select id="select-assinatura" name="select-assinatura">
-                        <!-- O Javascript preencherá esta lista -->
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="assinatura-nome">Nome</label>
-                    <input type="text" id="assinatura-nome" name="assinatura-nome" readonly>
-                </div>
-                <div class="input-group">
-                    <label for="assinatura-funcao">Função</label>
-                    <input type="text" id="assinatura-funcao" name="assinatura-funcao" readonly>
-                </div>
-                <div class="input-group">
-                    <label for="assinatura-data">Data</label>
-                    <input type="text" id="assinatura-data" name="assinatura-data" readonly>
-                </div>
-
-                <div class="input-group" style="margin-top: 20px;">
-                    <button id="gerar-btn">Gerar Licença</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-container">
-            <h1>Sua Licença Gerada</h1>
-            <canvas id="licenca-canvas"></canvas>
-            <button id="voltar-btn">Voltar para o Formulário</button>
+        <h1>Selecione o Documento para Gerar</h1>
+        <div class="document-list">
+            <a href="licenca.html">Gerar Licença</a>
+            <a href="porte-de-armas.html">Gerar Porte de Armas</a>
+            <a href="certidao-casamento.html">Gerar Certidão de Casamento</a>
+            <a href="certidao-limpeza.html">Gerar Certidão de Limpeza de Ficha</a>
         </div>
     </div>
-
-    <script>
-        // Dados para a lista de assinaturas. Você pode editar esta lista
-        const signatures = [
-            {
-                nome: 'Selecione uma Assinatura',
-                funcao: '',
-                data: '',
-            },
-            {
-                nome: 'Carlos Alberto da Silva',
-                funcao: 'Diretor Executivo',
-                data: new Date().toLocaleDateString('pt-BR'),
-            },
-            {
-                nome: 'Leonardo Bonaparte',
-                funcao: 'Desembargador',
-                data: new Date().toLocaleDateString('pt-BR'),
-            },
-        ];
-
-        // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de licença
-        const imageUrl = "https://i.imgur.com/LtAFMze.png";
-
-        // Elementos do DOM
-        const formContainer = document.getElementById('form-container');
-        const viewContainer = document.getElementById('view-container');
-        const canvas = document.getElementById('licenca-canvas');
-        const gerarBtn = document.getElementById('gerar-btn');
-        const voltarBtn = document.getElementById('voltar-btn');
-        const dataEmissaoInput = document.getElementById('data-emissao');
-        const dataValidadeInput = document.getElementById('data-validade');
-        const selectAssinatura = document.getElementById('select-assinatura');
-
-        // Novos campos da assinatura digital
-        const assinaturaNomeInput = document.getElementById('assinatura-nome');
-        const assinaturaFuncaoInput = document.getElementById('assinatura-funcao');
-        const assinaturaDataInput = document.getElementById('assinatura-data');
-
-        // Preenche o campo de seleção de assinatura
-        function populateSignatureSelect() {
-            signatures.forEach(sig => {
-                const option = document.createElement('option');
-                option.value = sig.nome;
-                option.textContent = sig.nome;
-                selectAssinatura.appendChild(option);
-            });
-        }
-        populateSignatureSelect();
-
-        // Preenche os campos da assinatura com base na seleção
-        selectAssinatura.addEventListener('change', (e) => {
-            const selectedName = e.target.value;
-            const selectedSignature = signatures.find(sig => sig.nome === selectedName);
-            if (selectedSignature) {
-                assinaturaNomeInput.value = selectedSignature.nome;
-                assinaturaFuncaoInput.value = selectedSignature.funcao;
-                assinaturaDataInput.value = selectedSignature.data;
-            }
-        });
-
-        // Calcula a data de validade automaticamente
-        dataEmissaoInput.addEventListener('change', () => {
-            const emissaoDate = new Date(dataEmissaoInput.value);
-            if (!isNaN(emissaoDate.getTime())) {
-                emissaoDate.setDate(emissaoDate.getDate() + 30);
-                const formattedDate = emissaoDate.toISOString().split('T')[0];
-                dataValidadeInput.value = formattedDate;
-            }
-        });
-
-        gerarBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Pega os dados do formulário
-            const formData = {
-                licenca: document.getElementById('licenca').value,
-                dataEmissao: document.getElementById('data-emissao').value,
-                dataValidade: document.getElementById('data-validade').value,
-                endereco: document.getElementById('endereco').value,
-                bairro: document.getElementById('bairro').value,
-                cidadeUf: document.getElementById('cidade-uf').value,
-                razaoSocial: document.getElementById('razao-social').value,
-                atividade: document.getElementById('atividade').value,
-                nomeResponsavel: document.getElementById('nome-responsavel').value,
-                rg: document.getElementById('rg').value,
-                nomeAdvogado: document.getElementById('nome-advogado').value,
-                oab: document.getElementById('oab').value,
-                assinaturaNome: assinaturaNomeInput.value,
-                assinaturaFuncao: assinaturaFuncaoInput.value,
-                assinaturaData: assinaturaDataInput.value,
-            };
-
-            generateImage(formData);
-        });
-
-        voltarBtn.addEventListener('click', () => {
-            viewContainer.style.display = 'none';
-            formContainer.style.display = 'grid';
-        });
-
-        function generateImage(data) {
-            const contexto = canvas.getContext('2d');
-            const imagem = new Image();
-
-            imagem.onload = () => {
-                // Ajusta o tamanho do canvas para o tamanho da imagem
-                canvas.width = imagem.width;
-                canvas.height = imagem.height;
-
-                // Desenha a imagem de fundo
-                contexto.drawImage(imagem, 0, 0);
-
-                // Configurações de estilo para o texto
-                // Aumentei o tamanho da fonte para 24px com base na sua observação sobre a altura da fonte.
-                contexto.fillStyle = '#000000'; // Cor preta
-                contexto.font = '28px Arial'; 
-
-                // Posições para os textos baseadas nas coordenadas que você forneceu
-                const textPositions = {
-                    licenca: { x: 205, y: 434 },
-                    dataEmissao: { x: 338, y: 493 },
-                    dataValidade: { x: 981, y: 493 },
-                    endereco: { x: 239, y: 645 },
-                    bairro: { x: 187, y: 715 },
-                    cidadeUf: { x: 1131, y: 715 },
-                    razaoSocial: { x: 286, y: 972 },
-                    atividade: { x: 415, y: 1022 },
-                    nomeResponsavel: { x: 167, y: 1185 },
-                    rg: { x: 520, y: 1185 },
-                    nomeAdvogado: { x: 168, y: 1365 },
-                    oab: { x: 529, y: 1365 },
-                    assinaturaNome: { x: 579, y: 1759 },
-                    assinaturaFuncao: { x: 612, y: 1797 },
-                    assinaturaData: { x: 560, y: 1834 },
-                };
-
-                // Formata a data de emissão para exibição
-                const emissaoDate = new Date(data.dataEmissao);
-                const validadeDate = new Date(data.dataValidade);
-                const formattedEmissao = `${emissaoDate.getDate().toString().padStart(2, '0')}/${(emissaoDate.getMonth() + 1).toString().padStart(2, '0')}/${emissaoDate.getFullYear()}`;
-                const formattedValidade = `${validadeDate.getDate().toString().padStart(2, '0')}/${(validadeDate.getMonth() + 1).toString().padStart(2, '0')}/${validadeDate.getFullYear()}`;
-
-                // Desenha os textos no canvas sem os títulos
-                contexto.fillText(data.licenca, textPositions.licenca.x, textPositions.licenca.y);
-                contexto.fillText(formattedEmissao, textPositions.dataEmissao.x, textPositions.dataEmissao.y);
-                contexto.fillText(formattedValidade, textPositions.dataValidade.x, textPositions.dataValidade.y);
-                contexto.fillText(data.razaoSocial, textPositions.razaoSocial.x, textPositions.razaoSocial.y);
-                contexto.fillText(data.atividade, textPositions.atividade.x, textPositions.atividade.y);
-                contexto.fillText(data.endereco, textPositions.endereco.x, textPositions.endereco.y);
-                contexto.fillText(data.bairro, textPositions.bairro.x, textPositions.bairro.y);
-                contexto.fillText(data.cidadeUf, textPositions.cidadeUf.x, textPositions.cidadeUf.y);
-                contexto.fillText(data.nomeResponsavel, textPositions.nomeResponsavel.x, textPositions.nomeResponsavel.y);
-                contexto.fillText(data.rg, textPositions.rg.x, textPositions.rg.y);
-                contexto.fillText(data.nomeAdvogado, textPositions.nomeAdvogado.x, textPositions.nomeAdvogado.y);
-                contexto.fillText(data.oab, textPositions.oab.x, textPositions.oab.y);
-                
-                // Desenha a assinatura digital
-                contexto.fillText(data.assinaturaNome, textPositions.assinaturaNome.x, textPositions.assinaturaNome.y);
-                contexto.fillText(data.assinaturaFuncao, textPositions.assinaturaFuncao.x, textPositions.assinaturaFuncao.y);
-                contexto.fillText(data.assinaturaData, textPositions.assinaturaData.x, textPositions.assinaturaData.y);
-
-                // Mostra o canvas e esconde o formulário
-                formContainer.style.display = 'none';
-                viewContainer.style.display = 'flex';
-            };
-
-            imagem.onerror = () => {
-                console.error('Erro ao carregar a imagem. Verifique se a URL está correta ou se o servidor está ativo.');
-                // Exibe uma mensagem de erro mais clara para o usuário
-                alert('Erro ao carregar a imagem. Por favor, verifique se a URL da imagem está correta e tente novamente.');
-            };
-
-            // Carrega a imagem
-            imagem.src = imageUrl;
-        }
-
-        // Define a data de emissão como a data atual
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date().toISOString().split('T')[0];
-            dataEmissaoInput.value = today;
-            dataEmissaoInput.dispatchEvent(new Event('change'));
-        });
-
-    </script>
 </body>
 </html>
-
-
-
-
