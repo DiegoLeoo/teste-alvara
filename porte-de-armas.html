@@ -184,7 +184,7 @@
 
     <script>
         // URL da sua imagem. SUBSTITUA ESTE LINK com a URL da sua imagem de fundo
-        const imageUrl = "https://i.imgur.com/6vGSJjJ.png";
+        const imageUrl = "https://placehold.co/1200x2000/F0C0D0/333333?text=Sua+Imagem+de+Porte+de+Armas";
 
         // Elementos do DOM
         const formContainer = document.getElementById('form-container');
@@ -227,21 +227,26 @@
                 // Configurações de estilo para o texto
                 contexto.fillStyle = '#000000'; 
                 contexto.font = 'bold 28px Arial'; 
-                contexto.textAlign = 'left';
+                // Alinha o texto ao centro para a centralização horizontal
+                contexto.textAlign = 'center'; 
 
-                // Posições para os textos baseadas nas coordenadas que você forneceu
+                // A nova coordenada x será sempre o centro do canvas
+                const centerX = canvas.width / 2;
+
+                // Posições para os textos baseadas nas coordenadas que você forneceu,
+                // mas centralizadas horizontalmente.
                 const textPositions = {
-                    certificado: { x: 194, y: 261 },
-                    expedicao: { x: 508, y: 261 },
-                    categoria: { x: 815, y: 261 },
-                    via: { x: 1032, y: 261 },
-                    nome: { x: 564, y: 347 },
-                    profissao: { x: 564, y: 434 },
-                    aptidaoPsicologica: { x: 311, y: 529 },
-                    aptidaoTecnica: { x: 839, y: 529 },
-                    dataExpedicao: { x: 225, y: 613 },
-                    dataValidade: { x: 574, y: 613 },
-                    rg: { x: 911, y: 613 },
+                    certificado: { x: centerX, y: 261 },
+                    expedicao: { x: centerX, y: 261 + 30 }, // Ajuste a posição para não sobrepor
+                    categoria: { x: centerX, y: 261 + 60 },
+                    via: { x: centerX, y: 261 + 90 },
+                    nome: { x: centerX, y: 347 },
+                    profissao: { x: centerX, y: 434 },
+                    aptidaoPsicologica: { x: centerX, y: 529 },
+                    aptidaoTecnica: { x: centerX, y: 529 + 30 }, // Ajuste a posição
+                    dataExpedicao: { x: centerX, y: 613 },
+                    dataValidade: { x: centerX, y: 613 + 30 }, // Ajuste a posição
+                    rg: { x: centerX, y: 613 + 60 },
                 };
 
                 // Formata a data de expedição para exibição
